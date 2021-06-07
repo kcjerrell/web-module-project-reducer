@@ -1,4 +1,6 @@
-import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION, CLEAR_DISPLAY, MEMORY_APPLY, MEMORY_CLEAR, MEMORY_STORE, TOGGLE_MODE } from './../actions';
+import actions from './../actions';
+import { inputModeReducer } from './inputMode';
+import { originalModeReducer } from './originalMode';
 
 export const ORIGINAL_MODE = "ORIGINAL";
 export const INPUT_MODE = "INPUT"
@@ -11,82 +13,45 @@ export const initialState = {
     mode: "ORIGINAL"
 }
 
-const calculateResult = (num1, num2, operation) => {
-    switch (operation) {
-        case ("+"):
-            return num1 + num2;
-        case ("*"):
-            return num1 * num2;
-        case ("-"):
-            return num1 - num2;
-        default:
-            return num1;
-    }
-}
-
 const reducer = (state, action) => {
     switch (action.type) {
-        case (ADD_ONE):
-            return ({
-                ...state,
-                total: state.total + 1
-            });
-
-        case (APPLY_NUMBER):
-            if (state.mode === ORIGINAL_MODE) {
-                return ({
-                    ...state,
-                    total: calculateResult(state.total, action.payload, state.operation)
-                });
-            }
-            else {
-                const newInput = parseInt(state.input.toString() + action.payload.toString());
-                return {
-                    ...state,
-                    input: newInput
-                };
-            }
-
-        case (CHANGE_OPERATION):
-            return ({
-                ...state,
-                operation: action.payload
-            });
-
-        case CLEAR_DISPLAY:
+        case actions.TOGGLE_MODE:
             return {
                 ...state,
-                total: 0
+                mode: state.mode === ORIGINAL_MODE ? INPUT_MODE : ORIGINAL_MODE,
+                input: initialState.input,
+                operation: initialState.operation
             };
 
-        case MEMORY_STORE:
+        case actions.CLEAR:
+            return {
+                ...state,
+                total: initialState.total,
+                operation: initialState.operation,
+                input: initialState.input
+            };
+
+        case actions.MEMORY_STORE:
             return {
                 ...state,
                 memory: state.total
             };
 
-        case MEMORY_APPLY:
-            return {
-                ...state,
-                total: calculateResult(state.total, state.memory, state.operation)
-            };
-
-        case MEMORY_CLEAR:
+        case actions.MEMORY_CLEAR:
             return {
                 ...state,
                 memory: 0
             };
 
-        case TOGGLE_MODE:
-            return {
-                ...state,
-                mode: state.mode === ORIGINAL_MODE ? INPUT_MODE : ORIGINAL_MODE,
-            };
-
         default:
-            console.log(`unknown action type requested: ${action.type}`)
-            return state;
+            if (state.mode === ORIGINAL_MODE)
+                return originalModeReducer(state, action);
+            else if (state.mode === INPUT_MODE)
+                return inputModeReducer(state, action)
     }
+
+    console.log(`reducer function unmatched: ${action} (mode: ${state.mode})`);
+    return state;
 }
 
 export default reducer;
