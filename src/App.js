@@ -5,8 +5,8 @@ import './App.css';
 import TotalDisplay from './components/TotalDisplay';
 import CalcButton from './components/CalcButton';
 
-import reducer, { initialState } from './reducers';
-import { changeOperation, applyNumber, clearDisplay, memoryStore, memoryApply, memoryClear } from './actions'
+import reducer, { initialState, INPUT_MODE } from './reducers';
+import { changeOperation, applyNumber, clearDisplay, memoryStore, memoryApply, memoryClear, toggleMode } from './actions'
 
 // const initialState = {value: 0, memory: 0}
 
@@ -57,7 +57,11 @@ function App() {
         <div className="col-md-12 d-flex justify-content-center">
           <form name="Cal">
 
-            <TotalDisplay value={state.total} />
+            <TotalDisplay value={state.total} label='total' />
+            {state.mode === INPUT_MODE && <TotalDisplay value={state.input} label='input' />}
+            <div className="row details" onClick={(() => dispatch(toggleMode()))}>
+              <span>Mode: {state.mode} (click to change)</span>
+            </div>
             <div className="row details">
               <span id="operation"><b>Operation:</b> {state.operation}</span>
               <span id="memory"><b>Memory:</b> {state.memory}</span>

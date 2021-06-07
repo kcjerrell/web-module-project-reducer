@@ -6,6 +6,7 @@ export const CLEAR_DISPLAY = "CLEAR_DISPLAY";
 export const MEMORY_STORE = "MEMORY_STORE";
 export const MEMORY_APPLY = "MEMORY_APPLY";
 export const MEMORY_CLEAR = "MEMORY_CLEAR";
+export const TOGGLE_MODE = "TOGGLE_MODE";
 
 export const addOne = () => {
     return({type:ADD_ONE});
@@ -33,4 +34,8 @@ export const memoryApply = () => {
 
 export const memoryClear = () => {
     return { type: MEMORY_CLEAR };
+}
+
+export const toggleMode = () => {
+    return { type: TOGGLE_MODE };
 }
