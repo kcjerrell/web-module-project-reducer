@@ -44,16 +44,11 @@ export const inputModeReducer = (state, action) => {
 				input: state.input.includes('.') ? state.input : (state.input ? state.input : '0') + '.'
 			};
 
-		// APPLY_OPERATOR performs state.operation against state.total and state.input
-		// stores that value in state.total
-		// resets state.input to 0
-		// and stores the new operation in state.operation
-		// I think
 		case actions.APPLY_OPERATOR:
-
 			const newTotal = calculateResult(state.total, parseFloat(state.input), state.operation);
 			const newOp = action.payload;
 			const newInput = '';
+
 			return {
 				...state,
 				operation: newOp,
@@ -61,7 +56,6 @@ export const inputModeReducer = (state, action) => {
 				input: newInput
 			};
 
-		// memory recall replaces the current input with the stored value
 		case actions.MEMORY_APPLY:
 			return {
 				...state,
