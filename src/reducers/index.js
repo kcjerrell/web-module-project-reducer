@@ -7,7 +7,7 @@ export const INPUT_MODE = "INPUT"
 
 export const initialState = {
     total: 0,
-    input: '0',
+    input: '',
     operation: "+",
     memory: 0,
     mode: "ORIGINAL"
@@ -16,11 +16,12 @@ export const initialState = {
 const reducer = (state, action) => {
     switch (action.type) {
         case actions.TOGGLE_MODE:
+            const newMode = state.mode === ORIGINAL_MODE ? INPUT_MODE : ORIGINAL_MODE;
             return {
                 ...state,
-                mode: state.mode === ORIGINAL_MODE ? INPUT_MODE : ORIGINAL_MODE,
+                mode: newMode,
                 input: initialState.input,
-                operation: initialState.operation
+                operation: newMode === ORIGINAL_MODE ? "+" : "="
             };
 
         case actions.CLEAR:

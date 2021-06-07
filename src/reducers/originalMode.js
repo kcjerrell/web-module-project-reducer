@@ -21,7 +21,7 @@ export const originalModeReducer = (state, action) => {
 				total: calculateResult(state.total, action.payload, state.operation)
 			});
 
-		case (actions.CHANGE_OPERATION):
+		case (actions.APPLY_OPERATOR):
 			return ({
 				...state,
 				operation: action.payload

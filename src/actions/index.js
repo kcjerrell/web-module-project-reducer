@@ -1,7 +1,8 @@
 export const ADD_ONE = "ADD_ONE";
 
 export const APPLY_NUMBER = "APPLY_NUMBER";
-export const CHANGE_OPERATION = "CHANGE_OPERATION";
+export const APPLY_DECIMAL = "APPLY_DECIMAL";
+export const APPLY_OPERATOR = "APPLY_OPERATOR";
 export const CLEAR = "CLEAR";
 export const MEMORY_STORE = "MEMORY_STORE";
 export const MEMORY_APPLY = "MEMORY_APPLY";
@@ -16,8 +17,12 @@ export const applyNumber = (number) => {
     return ({ type: APPLY_NUMBER, payload: number });
 }
 
-export const changeOperation = (operation) => {
-    return { type: CHANGE_OPERATION, payload: operation };
+export const applyDecimal = () => {
+    return { type: APPLY_DECIMAL };
+}
+
+export const applyOperator = (operator) => {
+    return { type: APPLY_OPERATOR, payload: operator };
 }
 
 export const clear = () => {
@@ -42,12 +47,13 @@ export const toggleMode = () => {
 
 const actions = {
     APPLY_NUMBER, applyNumber,
-    CHANGE_OPERATION, changeOperation,
+    APPLY_DECIMAL, applyDecimal,
+    APPLY_OPERATOR, applyOperator,
     CLEAR, clear,
     MEMORY_STORE, memoryStore,
     MEMORY_APPLY, memoryApply,
     MEMORY_CLEAR, memoryClear,
-    TOGGLE_MODE, toggleMode
+    TOGGLE_MODE, toggleMode,
 };
 
 export default actions;

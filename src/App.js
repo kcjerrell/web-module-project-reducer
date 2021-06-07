@@ -8,6 +8,8 @@ import CalcButton from './components/CalcButton';
 import reducer, { initialState, INPUT_MODE, ORIGINAL_MODE } from './reducers';
 import actions, { clear } from './actions';
 
+const opDisplayValues = { '+': '+', '-': '-', '*': '×', '/': '÷', '=': '' };
+
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -24,21 +26,25 @@ function App() {
   };
 
   const operatorButtons = {
-    add: <CalcButton value={"+"} onClick={() => dispatch(actions.changeOperation('+'))} />,
-    multiply: <CalcButton value={"*"} onClick={() => dispatch(actions.changeOperation('*'))} />,
-    subtract: <CalcButton value={"-"} onClick={() => dispatch(actions.changeOperation('-'))} />,
-    divide: <CalcButton value={"/"} onClick={() => dispatch(actions.changeOperation('/'))} />,
-    equals: <CalcButton value={"="} onClick={() => dispatch(actions.changeOperation('='))} />,
+    add: <CalcButton value={"+"} onClick={() => dispatch(actions.applyOperator('+'))} />,
+    multiply: <CalcButton value={"*"} onClick={() => dispatch(actions.applyOperator('*'))} />,
+    subtract: <CalcButton value={"-"} onClick={() => dispatch(actions.applyOperator('-'))} />,
+    divide: <CalcButton value={"/"} onClick={() => dispatch(actions.applyOperator('/'))} />,
+    equals: <CalcButton value={"="} onClick={() => dispatch(actions.applyOperator('='))} />,
   }
 
-  const decimalButton = <CalcButton value={"."} onClick={() => {dispatch(actions.applyNumber('.'))}} />;
+  const decimalButton = <CalcButton value={"."} onClick={() => { dispatch(actions.applyDecimal()) }} />;
 
   const clearButton = <CalcButton value={"CE"} onClick={() => dispatch(actions.clear())} />;
 
   return (
     <div className="App">
       <nav className="navbar navbar-dark bg-dark">
-        <a className="navbar-brand" href="#"><img width="40px" src="./Lambda-Logo-Red.png" /> Lambda Reducer Challenge</a>
+        {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+        <a className="navbar-brand" href="#">
+          <img width="40px" src="./Lambda-Logo-Red.png" alt="lambda logo" />
+          Lambda Reducer Challenge
+          </a>
       </nav>
 
       <div className="container row mt-5">
@@ -46,11 +52,11 @@ function App() {
           <form name="Cal">
 
             <TotalDisplay value={state.total} label='total' />
-            {state.mode === INPUT_MODE && <TotalDisplay value={state.input} label='input' />}
+            {state.mode === INPUT_MODE && <TotalDisplay value={`${opDisplayValues[state.operation]} ${state.input}`} label='input' />}
 
             <div className="row details">
               {state.mode === ORIGINAL_MODE
-                ? < span id="operation"><b>Operation:</b> {state.operation}</span>
+                ? <span id="operation"><b>Operation:</b> {state.operation}</span>
                 : <span id="operation"></span>}
               <span id="memory"><b>Memory:</b> {state.memory}</span>
             </div>
