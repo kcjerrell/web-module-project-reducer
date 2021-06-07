@@ -7,7 +7,7 @@ export const INPUT_MODE = "INPUT"
 
 export const initialState = {
     total: 0,
-    input: 0,
+    input: '0',
     operation: "+",
     memory: 0,
     mode: "ORIGINAL"

@@ -55,6 +55,22 @@ button:active {
   width: 100% !important;
 }
 
+.col-xs-3{
+  width: 75%;
+}
+
+.col-xs-3 .btn{
+  width: 100% !important;
+}
+
+.col-xs-2{
+  width: 50%;
+}
+
+.col-xs-2 .btn{
+  width: 100% !important;
+}
+
 .btn-primary:focus,
 .btn-primary,
 .form-control:focus {

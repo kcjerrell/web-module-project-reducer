@@ -16,7 +16,16 @@ const calculateResult = (num1, num2, operation) => {
 export const inputModeReducer = (state, action) => {
 	switch (action.type) {
 		case actions.APPLY_NUMBER:
-			const newInput = parseInt(state.input.toString() + action.payload.toString());
+			let newInput = state.input;
+			const newDigit = action.payload.toString();
+
+			if (newDigit === '.' && !newInput.includes('.'))
+				newInput += '.';
+
+			// Append any digit value
+			else if (newDigit.match(/\d/))
+				newInput += newDigit;
+
 			return ({
 				...state,
 				input: newInput
