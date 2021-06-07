@@ -27,6 +27,8 @@ const opDisplayValues = { '+': '+', '-': '-', '*': '×', '/': '÷', '=': '' };
 
     Along the way I might have renamed some of the action types or buttons, which I why I'm making this note.
     It (probably) all works! But depending on the tests it might seem broken.
+
+    If necessary, the commit before I merged in the stretch is: c124186188
 */
 
 function App() {
