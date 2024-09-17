@@ -1,45 +1,58 @@
-import { ADD_ONE, APPLY_NUMBER, CHANGE_OPERATION } from './../actions';
+import actions from './../actions';
+import { inputModeReducer } from './inputMode';
+import { originalModeReducer } from './originalMode';
+
+export const ORIGINAL_MODE = "ORIGINAL";
+export const INPUT_MODE = "INPUT"
 
 export const initialState = {
-    total: 100,
-    operation: "*",
-    memory: 100
-}
-
-const calculateResult = (num1, num2, operation) => {
-    switch(operation) {
-        case("+"):
-            return num1 + num2;
-        case("*"):
-            return num1 * num2;
-        case("-"):
-            return num1 - num2;
-    }
+    total: 0,
+    input: '',
+    operation: "+",
+    memory: 0,
+    mode: "ORIGINAL"
 }
 
 const reducer = (state, action) => {
-    switch(action.type) {
-        case(ADD_ONE):
-            return({
+    switch (action.type) {
+        case actions.TOGGLE_MODE:
+            const newMode = state.mode === ORIGINAL_MODE ? INPUT_MODE : ORIGINAL_MODE;
+            return {
                 ...state,
-                total: state.total + 1
-            });
+                mode: newMode,
+                input: initialState.input,
+                operation: newMode === ORIGINAL_MODE ? "+" : "="
+            };
 
-        case(APPLY_NUMBER):
-            return ({ 
-                ...state, 
-                total: calculateResult(state.total, action.payload, state.operation)
-            });
-        
-        case(CHANGE_OPERATION):
-            return ({
+        case actions.CLEAR:
+            return {
                 ...state,
-                operation: action.payload
-            });
-            
+                total: initialState.total,
+                operation: initialState.operation,
+                input: initialState.input
+            };
+
+        case actions.MEMORY_STORE:
+            return {
+                ...state,
+                memory: state.total
+            };
+
+        case actions.MEMORY_CLEAR:
+            return {
+                ...state,
+                memory: 0
+            };
+
         default:
-            return state;
+            if (state.mode === ORIGINAL_MODE)
+                return originalModeReducer(state, action);
+            else if (state.mode === INPUT_MODE)
+                return inputModeReducer(state, action)
     }
+
+    console.log(`reducer function unmatched: ${action} (mode: ${state.mode})`);
+    return state;
 }
 
 export default reducer;
